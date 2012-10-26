@@ -15,7 +15,10 @@
     <%= f.label :description %><br />
     <%= f.text_field :description %>
   </div>
-  
+  <%= f.fields_for :items do |builder| %>
+      <%= render "item_fields",:f => builder %>
+  <% end %>
+
   <div class="actions">
     <%= f.submit %>
   </div>

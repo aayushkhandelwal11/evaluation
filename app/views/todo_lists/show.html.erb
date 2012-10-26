@@ -2,6 +2,9 @@
   <b>Description:</b>
   <%= @todolist.description %>
 </p>
+ <% @items.each do|item| %>
+    <p> description <%= item.description %>(<%= item.priority%>)</p>
+<% end %>
  
 <%= link_to 'Edit List', edit_todo_list_path(@todolist) %> |
 <%= link_to 'Back to lists', todo_lists_path %> |

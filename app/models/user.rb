@@ -9,6 +9,7 @@ class User < ActiveRecord::Base
   validates :email, :uniqueness => {:case_sensitive => false}, :if => :email 
   validates :email, :format => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i, :if => lambda {self.email.present? } 
 
+  
 
   has_many :todo_lists, :dependent => :destroy
 end

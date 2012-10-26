@@ -1,5 +1,15 @@
 class TodoListsController < ApplicationController
-  
+  before_filter :check_owner, :only => [:edit, :update]
+  def check_owner
+     todolist = TodoList.find(params[:id])
+   
+     if todolist.user_id.to_s != current_user.id.to_s
+
+       flash.alert = "You are not authorized fro this "
+       redirect_to todo_lists_url
+     end
+  end  
+    
   def index
     @todolists = current_user.todo_lists
 
@@ -11,7 +21,7 @@ class TodoListsController < ApplicationController
 
   def show
     @todolist = TodoList.find(params[:id])
-
+    @items = @todolist.items.order(:priority)
     respond_to do |format|
       format.html 
       format.json { render json: @todolist }
@@ -20,7 +30,7 @@ class TodoListsController < ApplicationController
 
   def new
     @todolist = TodoList.new
-
+    5.times {@todolist.items.build}
     respond_to do |format|
       format.html
       format.json { render json: @todolist }
@@ -29,11 +39,12 @@ class TodoListsController < ApplicationController
 
   def edit
     @todolist = TodoList.find(params[:id])
+    x = 5 - @todolist.items.count 
+    x.times {@todolist.items.build}
   end
 
   def create
-    @todolist = current_user.todo_lists.build(params[:todolist])
-
+    @todolist = current_user.todo_lists.build(params[:todo_list])
     respond_to do |format|
       if @todolist.save
         format.html { redirect_to @todolist, notice: 'List was successfully created.' }
@@ -45,13 +56,12 @@ class TodoListsController < ApplicationController
     end
   end
 
-  # PUT /posts/1
-  # PUT /posts/1.json
+
   def update
-    @todolist = Post.find(params[:id])
+    @todolist = TodoList.find(params[:id])
 
     respond_to do |format|
-      if @todolist.update_attributes(params[:post])
+      if @todolist.update_attributes(params[:todo_list])
         format.html { redirect_to @todolist, notice: 'Post was successfully updated.' }
         format.json { head :no_content }
       else
@@ -61,14 +71,12 @@ class TodoListsController < ApplicationController
     end
   end
 
-  # DELETE /posts/1
-  # DELETE /posts/1.json
   def destroy
-    @todolist = Post.find(params[:id])
+    @todolist = TodoList.find(params[:id])
     @todolist.destroy
 
     respond_to do |format|
-      format.html { redirect_to posts_url }
+      format.html { redirect_to todo_lists_url }
       format.json { head :no_content }
     end
   end
