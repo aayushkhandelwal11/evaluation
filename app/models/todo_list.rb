@@ -5,7 +5,9 @@ class TodoList < ActiveRecord::Base
   
   belongs_to :user
   has_many :items, :dependent => :destroy
-
+  
   accepts_nested_attributes_for :items, :reject_if => proc { |attributes| attributes['description'].blank? }, :limit => 5
-
+  scope :complete, lambda { select { |list| list.items.count == list.items.where(:items => {:completed => true}).count}  }
+  scope :incomplete, lambda { includes(:items).where(:items => {:completed => "false"})}
 end
+
