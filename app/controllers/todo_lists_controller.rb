@@ -62,7 +62,7 @@ class TodoListsController < ApplicationController
 
     respond_to do |format|
       if @todolist.update_attributes(params[:todo_list])
-        format.html { redirect_to @todolist, notice: 'Post was successfully updated.' }
+        format.html { redirect_to @todolist, notice: 'todolist was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
