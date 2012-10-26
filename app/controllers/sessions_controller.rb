@@ -11,7 +11,7 @@ class SessionsController < ApplicationController
       flash[:notice] = "You have succesfully logged in"
       redirect_to todo_lists_url
     else
-      flash[:error]= "Invalid username/password combination"
+      flash[:error]= "Invalid email/password combination"
       redirect_to login_path 
     end
   end
