@@ -8,7 +8,7 @@ Todolist::Application.routes.draw do
   
   end
 
-  resources :users
+  resources :users, :only => [:new, :create]
   resources :todo_lists
   # The priority is based upon order of creation:
   # first created -> highest priority.

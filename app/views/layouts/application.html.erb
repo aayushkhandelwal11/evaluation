@@ -7,6 +7,16 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
+	<div id="banner">
+   <div id="user"> 
+   <% if session[:user_id]!=nil %> 
+    Welcome <%= (User.find session[:user_id]).name%>
+   <h3><%= link_to 'Log Out',logout_path%></h3>
+   <%else%>
+   Welcome Guest
+   <%end%>
+   </div>
+  </div>
 	  <% flash.each do |key, msg| %>
         <%= content_tag :div, msg, :id => key %>
       <% end %>
